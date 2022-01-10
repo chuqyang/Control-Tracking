@@ -1,1 +1,67 @@
-This is a new file
+GitHub Flow
+
+I'll cover the Current DATIM Workflow, which I chose because most developers that I work with are on DATIM
+
+Then I'll move on to some of the issues with the current Workflow
+
+Next I'll introduce the workflow known as GitHub Flow
+
+Finally, I'll summarize what I hope you learned, give a short list of resources and provide my contact information in case you have questions.
+
+When someone finds a bug or notices a problem with DATIM, they open a ticket either in ZenDesk or GitHub. 
+
+Once the issue has been confirmed, a developer will begin creating a patch in the Global/patches/ directory where the number corresponds to the ticket number.
+
+Development continues until the patch is ready for testing.
+
+If the tests are successful, the patch is approved and deployed to production during a maintenance window, usually with a few other patches.
+
+This process works. It's how things have been done here for as long as I've been on the project. Every DATIM developer knows this process.
+
+There are some issues with the Current Workflow.
+
+Every dev is working off the master branch, which is fine because the patches are isolated to their own directories, 
+
+However this means there is no place or branch where all the code there can always be run in production. This isn't such a big deal with DATIM since everything lives in the database, but there are other repositories like cron, where that is not the case. In the case of the cron repo, we do have a production branch and that always contains code that works, is approved and deployed to production. Having a codebase that is always deployable is great for disaster recovery.
+
+There isn't documented peer review of the code. Which again isn't bad because the testing determines if the code works. Developers can learn from other developers by looking at their code.
+
+The testing and deployment steps are manual. These steps should be automated. Some patches will be easier to test and automate than others. We're working on getting to the point where a deployment will require nothing from the Engineering team. We have some steps to get there, and I'm trying to make a case for getting us closer to that.
+
+That's where GitHub Flow comes in. 
+
+We'll walk through what GitHub Flow is. This is the workflow that GitHub as a company uses. The single most important rule of this workflow is the master branch should always be deployable. 
+
+Using collaborative source control tools such as github, there are a number of different branching philosophies or workflows. Some PEPFAR development teams are already using branches, which is great! I know that this sounds like a lot of extra work for developers, but it really isn't, and the benefits will outweigh the extra work (usually).
+
+The first step in the github flow is creating a branch. I'd recommend naming your branch after the github ticket that you're working on. So, if you're working on issue 1234, use git checkout -b 1234 to create, name and checkout your branch all in one step.
+
+In that branch, that's where you would create the patches/1234 directory and put all your files there, work on the patch, and then check the entire branch back into the repo using git push --set-upstream origin 1234
+
+You can open a PR at any point, if you need help or want someone to review your code. 
+
+As a friendly reminder, keep in mind coding guidelines, document your code and if possible, write unit tests. 
+
+After your pull request is ready, tested and approved, it is then merged into master and should immediately be deployed to production. We will have more of a proces than this, but remember that master should always be deployable.
+
+Eventually, when a PR is merged, Engineering will set up automatic deployments to select environments. If there are also unit tests, they can also be automatically run before and/or after a deployment. It will take a little bit of time to get to this point, but by laying the foundation, we can move further down the road to automation.
+
+But Why and When?
+
+Why am I proposing GitHub Flow? All this is to get us closer to automation. It will require some extra work to write tests, and it will require code review. I hope that this workflow will get us closer to getting deploys automated. If not, we can look at other workflows, there are many to choose from. 
+
+When will we start? Start using branches now. It's a core feature of github. Open Pull requests now. Begin writing unit tests for your code. Start reviewing each other's code. Get into these habits. It will take some time and there will be growing pains, but soon it will become part of the process.
+
+Which repositories should you start with?
+
+I would recommend starting small. By small, I mean the ones with small teams and repositories where you can make small iterative changes. But, you can start using branches, PRs and merges on any repository and eventually, these steps should be used on all repos.
+
+In summary, with GitHub Flow, the master branch should always be deployable. The steps of the flow are to create a branch, work on the branch, send a pull request from your branch and make more changes if needed. When the PR is reviewed, merge it back into master and delete your branch. Only then will it get pushed to production. 
+
+In due time, we will have the deployments automated and if we want, we can have immediate automated deployments, but thats another presentation.
+
+
+Questions? Email me at cyang@baosystems.com
+
+Thank you!
+
